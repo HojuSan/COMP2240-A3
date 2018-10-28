@@ -22,6 +22,7 @@ public class Assign3
     {
         //variables
         //these values hardcoded for testing purposes
+        MemoryAllocation ma = new MemoryAllocation();
         int timeQuantum = 3;
         int frames = 30;
 
@@ -32,10 +33,10 @@ public class Assign3
         String f4 = "Process4.txt";
 
         //data from the file
-        List<String> process1 = new LinkedList<String>();
-        List<String> process2 = new LinkedList<String>();
-        List<String> process3 = new LinkedList<String>();
-        List<String> process4 = new LinkedList<String>();
+        Process process1 = new Process(f1);
+        Process process2 = new Process(f2);
+        Process process3 = new Process(f3);
+        Process process4 = new Process(f4);
 
         //load data from files into processes
         readFile(f1,process1);
@@ -43,9 +44,24 @@ public class Assign3
         readFile(f3,process3);
         readFile(f4,process4);
 
+        //adds the process into the memory allocation
+        ma.addProcess(process1);
+        ma.addProcess(process2);
+        ma.addProcess(process3);
+        ma.addProcess(process4);
+
+        //testing sections
+//        System.out.println(ma.print()); //prints process values from, Memory Allocation
+
+//        for(int i = 0; i < process1.getSize(); i++)
+//        {
+//           System.out.println(process1.getPage().get(i));
+//        }
+
     }//end of main
 
-    public static void readFile(String fileName, List<String> process)
+    //recieves the file name and saves the variables into string lists
+    public static void readFile(String fileName, Process process)
     {
         //variables
         List<String> input = new LinkedList<String>();
@@ -74,7 +90,7 @@ public class Assign3
                     //to ignore the end string
                     for(int i = 1; i < input.size()-1; i++)
                     {
-                        process.add(input.get(i));
+                        process.addPage(input.get(i));
                     }
 
                 }
@@ -84,14 +100,15 @@ public class Assign3
             {
                 System.out.println("Empty file, or invalid contents!");
             }
+
+            //close all the files
+            file1.close();
         } 
         catch (FileNotFoundException e) 
         { 
             System.out.println("File not found! Please give a valid file!");
         }
 
-        //close all the files
-        file1.close();
     }//end of readFile function
 
 }//main
