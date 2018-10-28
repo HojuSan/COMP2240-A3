@@ -7,14 +7,16 @@ public class Process
     //variables
     private String id;
     private int size;
-    private List<String> page;
     private int turnaroundTime;
     private int faultCount;
     private List<Integer> faultTimes;
+    private List<String> page;
+    private MemoryAllocation ma;
 
     //constructor
     public Process(String id)
     {
+        this.ma = new MemoryAllocation();
         this.page = new LinkedList<String>();
         this.id = id;
         this.size = 0;
@@ -24,6 +26,10 @@ public class Process
     }
 
     //setters
+    public void addToMemory(String id)
+    {
+        this.ma.addMa(id);
+    }
     public void addPage(String pageId)
     {
         this.page.add(pageId);

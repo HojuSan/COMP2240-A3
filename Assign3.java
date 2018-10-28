@@ -44,16 +44,16 @@ public class Assign3
         readFile(f4,process4);
 
         //adds the process into the memory allocation
-        MemoryAllocation ma = new MemoryAllocation(timeQuantum, frames);
-        ma.addProcess(process1);
-        ma.addProcess(process2);
-        ma.addProcess(process3);
-        ma.addProcess(process4);
+        CPU cpu = new CPU(timeQuantum, frames);
+        cpu.addProcess(process1);
+        cpu.addProcess(process2);
+        cpu.addProcess(process3);
+        cpu.addProcess(process4);
 
         //testing sections
-        System.out.println(ma.print()); //prints process values from, Memory Allocation
-        System.out.println(ma.printLRU());
-        System.out.println(ma.printClock());
+        System.out.println(cpu.print()); //prints process values from, Memory Allocation
+        System.out.println(cpu.printLRU());
+        System.out.println(cpu.printClock());
 //        for(int i = 0; i < process1.getSize(); i++)
 //        {
 //           System.out.println(process1.getPage().get(i));
