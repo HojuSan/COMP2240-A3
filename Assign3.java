@@ -51,7 +51,7 @@ public class Assign3
         cpu.addProcess(process4);
 
         //testing sections
-        System.out.println(cpu.print()); //prints process values from, Memory Allocation
+//        System.out.println(cpu.print()); //prints process values from, Memory Allocation
         System.out.println(cpu.printLRU());
         System.out.println(cpu.printClock());
 //        for(int i = 0; i < process1.getSize(); i++)

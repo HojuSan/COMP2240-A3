@@ -1,3 +1,10 @@
+//* File:                       Main.java
+// * Course:                    COMP2240
+//  * Assignment:               Assignment3
+//   * Name:                    Juyong Kim  
+//    * Student Number:         c3244203
+//     * Purpose:               Primary file and then blah blah more explanation of shiet
+//      * 
 import java.util.List;
 import java.util.LinkedList;
 public class MemoryAllocation
