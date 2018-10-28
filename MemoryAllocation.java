@@ -16,43 +16,77 @@ import java.util.Queue;
 
 public class MemoryAllocation 
 {
-    //list of all the processes
-    private List<Process> events;
+    //List for waiting, processing and finished queues
+    private List<Process> waiting,mainMemory,finished;
     private int processCount;
     private final int memPro = 6;
-    private int dis;
+    private int timeQuantum;
+    private int frames;
 
     // constructor
-    public MemoryAllocation() 
+    public MemoryAllocation(int timeQuantum, int frames) 
     {
         //contains a list of all the processes
-        events = new LinkedList<Process>();
+        mainMemory = new LinkedList<Process>();
+        waiting = new LinkedList<Process>();
+        finished = new LinkedList<Process>();
+        this.timeQuantum = timeQuantum;
+        this.frames = frames;
         processCount = 0;
     }
 
-    //Setting the process into a list
-    public void addProcess(Process process)
+    //functions
+    public void cpuEvents()
     {
-        events.add(process);
+        //program runs while mainMemory or waiting queue is still doing stuff
+        while(!mainMemory.isEmpty()&&!waiting.isEmpty())
+        {
+
+        }//end of while loop
+    }//end of cpuEvents
+    public void addProcess(Process process) //Setting the process into a list
+    {
+        //adds all the process to the waiting queue
+        waiting.add(process);
         processCount++;
     }
-
-    //testing purposes, prints all the values in all the processes
-    public String print()
+    public String print()   //testing purposes, prints all the values in all the processes
     {
         String token1="";
 
         for(int i = 0; i < processCount;i++)
         {
-            token1 += "This is " + events.get(i).getId()+"\n";
+            token1 += "This is " + waiting.get(i).getId()+"\n";
 
-            for(int j = 0; j < events.get(i).getSize();j++)
+            for(int j = 0; j < waiting.get(i).getSize();j++)
             {
-                token1 += events.get(i).getPage().get(j)+"\n";
+                token1 += waiting.get(i).getPage().get(j)+"\n";
             }
         }
         return token1;
     }
+    //reults section
+    //TODO returns values
+    public String printLRU()  
+    {
+        String token1="LRU - Fixed:\nPID  Turnaround Time  # Faults  Fault Times\n";
+        for(int i = 0; i < processCount;i++)
+        {
+            token1 += i + " woot\n";
+        }
+        return token1;
+    }
+    public String printClock()  
+    {
+        String token1="Clock - Fixed:\nPID  Turnaround Time  # Faults  Fault Times\n";
+        for(int i = 0; i < processCount;i++)
+        {
+            token1 += i + " woot\n";
+        }
+        return token1;
+    }
 
+    //setters
+    //getters
     
-}
+}//end of class

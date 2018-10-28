@@ -22,7 +22,6 @@ public class Assign3
     {
         //variables
         //these values hardcoded for testing purposes
-        MemoryAllocation ma = new MemoryAllocation();
         int timeQuantum = 3;
         int frames = 30;
 
@@ -45,14 +44,16 @@ public class Assign3
         readFile(f4,process4);
 
         //adds the process into the memory allocation
+        MemoryAllocation ma = new MemoryAllocation(timeQuantum, frames);
         ma.addProcess(process1);
         ma.addProcess(process2);
         ma.addProcess(process3);
         ma.addProcess(process4);
 
         //testing sections
-//        System.out.println(ma.print()); //prints process values from, Memory Allocation
-
+        System.out.println(ma.print()); //prints process values from, Memory Allocation
+        System.out.println(ma.printLRU());
+        System.out.println(ma.printClock());
 //        for(int i = 0; i < process1.getSize(); i++)
 //        {
 //           System.out.println(process1.getPage().get(i));
