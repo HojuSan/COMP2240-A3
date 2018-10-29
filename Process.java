@@ -15,8 +15,8 @@ public class Process
     private String id;
     private int turnaroundTime;
     private int faultCount;
-    private List<Integer> faultTimes;
-    private List<Page> pages;
+    private ArrayList<Integer> faultTimes;
+    private LinkedList<Page> pages;
     private Page newPage;
     private MemoryAllocation ma;
 
@@ -31,6 +31,14 @@ public class Process
         this.faultTimes = new ArrayList<Integer>();
     }
 
+//    public void print()
+//    {
+//        for(int i = 0; i < pages.size(); i++)
+//        {
+//            System.out.println(pages.get(i).getPageId());
+//        }
+//    }
+
     //setters
     public void addToMemory(String id)
     {
@@ -38,8 +46,7 @@ public class Process
     }
     public void addPage(String pageId)
     {
-        newPage = new Page(pageId);
-        this.pages.add(newPage);
+        this.pages.add(new Page(pageId));
     }
     public void addTat(int tat)    //turnaroundtime
     {
@@ -77,7 +84,7 @@ public class Process
 
         return token1;
     }
-    public List getPages()
+    public LinkedList<Page> getPages()
     {
         return pages;
     }

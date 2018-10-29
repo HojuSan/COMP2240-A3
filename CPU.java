@@ -96,21 +96,22 @@ public class CPU
         ready.add(process);
         processCount++;
     }
-//    public String print()   //testing purposes, prints all the values in all the processes
-//    {
-//        String token1="";
-//
-//        for(int i = 0; i < processCount;i++)
-//        {
-//            token1 += "This is " + ready.get(i).getId()+"\n";
-//
-//            for(int j = 0; j < ready.get(i).getSize();j++)
-//            {
-//                token1 += ready.get(i).getPage().get(j)+"\n";
-//            }
-//        }
-//        return token1;
-//    }
+    public String print()   //testing purposes, prints all the values in all the processes
+    {
+        String token1="";
+
+        for(int i = 0; i < ready.size();i++)
+        {
+            token1 += "This is " + ready.get(i).getProcessId()+"\n";
+
+            //size of pages in a process
+            for(int j = 0; j < ready.get(i).getPages().size(); j++)
+            {
+                token1 += ready.get(i).getPages().get(j).getPageId() +"\n";
+            }
+        }
+        return token1;
+    }
     //reults section
     //TODO returns values
     public String printLRU()  
