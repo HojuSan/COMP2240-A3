@@ -23,7 +23,7 @@ public class MemoryAllocation
     }
     public boolean check(String id)
     {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!In MEMORY ALLOCATION");
+//        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!In MEMORY ALLOCATION");
         //if empty then nothing is in memory
         if(exists.size()==0)
         return false;

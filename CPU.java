@@ -48,6 +48,9 @@ public class CPU
 //this thing will get complicated fast
 //work on this carefully and thoughtfully
 
+        //organise queue before beginning
+        Collections.sort(ready);
+
         //finished queue is not full
         while(finished.size()!=processCount)
         {
@@ -110,7 +113,7 @@ public class CPU
                     if(!ready.get(i).getMa().check(ready.get(i).getPages().get(0).getPageId()))
                     {
                         ready.get(i).addFault(time);                            //adds the page fault at the current time
-                        ready.get(i).addToMemory(ready.get(i).getPages().get(0).getPageId());     //adds the page to memory to start processing
+//                        ready.get(i).getMa().addMa(ready.get(i).getPages().get(0).getPageId());     //adds the page to memory to start processing
                         blocked.add(ready.get(i));                              //adds the process to blocked queue
                         ready.remove(ready.get(i));                             //removes it from ready queue
                         i--;
@@ -142,7 +145,7 @@ public class CPU
                         if(running.get(i).getMa().check(running.get(i).getPages().get(0).getPageId()))
                         {
 
-                    System.out.println(running.get(i).getProcessId()+" Page "+running.get(i).getPages().get(0).getPageId());
+                            System.out.println(running.get(i).getProcessId()+" Page "+running.get(i).getPages().get(0).getPageId());
 
                             //get the first page in the process, and remove it, since its processed
                             running.get(i).getPages().remove(running.get(i).getPages().get(0));
@@ -151,26 +154,29 @@ public class CPU
                             //remove the process
                             if(running.get(i).getPages().isEmpty())
                             {
+                                System.out.println("------------"+running.get(i).getProcessId()+" at " +time+ " has left the queue");
                                 finished.add(running.get(i));
                                 running.remove(running.get(i));
-                                i--;
+                                break;
                             }
                             time++;
-                    System.out.println("2.after page processed time is "+time);
+                            System.out.println("2.after "+running.get(i).getProcessId()+" page processed time is "+time);
                             //process no longer exists in running, break the loop
-                            break;
+                            //break;
                         }
                         //page blocks cause its not in memory
                         else if(!running.get(i).getMa().check(running.get(i).getPages().get(0).getPageId()))
                         {
-                    System.out.println(running.get(i).getProcessId());
+                            System.out.println(running.get(i).getProcessId()+ " in else if, now loading into meomory/blocked");
 
                             running.get(i).addFault(time);                            //adds the page fault at the current time
-                            running.get(i).addToMemory(running.get(i).getPages().get(0).getPageId());     //adds the page to memory to start processing
+//                           running.get(i).getMa().addMa(running.get(i).getPages().get(0).getPageId());     //adds the page to memory to start processing
                             blocked.add(running.get(i));                              //adds the process to blocked queue
+                            blocked.get(blocked.size()-1).getPages().get(0).upPt();   //adds one loading time to the blocked queue thing                
                             running.remove(running.get(i));                           //removes it from ready queue
-                            time++;
-                    System.out.println("3.after page block time is "+time);
+                        //i think when page blocks time doesn't increment
+                            //time++;
+                            System.out.println("3.after page block time is "+time);
                             i--;
                             //process no longer exists in running, break the loop
                             break;
