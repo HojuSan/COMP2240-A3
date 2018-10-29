@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.*;
 
 public class CPU 
 {
@@ -43,50 +44,64 @@ public class CPU
 //this thing will get complicated fast
 //work on this carefully and thoughtfully
 
-        //program runs while running or ready queue is still doing stuff
- //       while(!running.isEmpty() && !ready.isEmpty())
- //       {
- //           //adds all processes checks if they are ready to access the main memory
- //           for(int i = 0; i < ready.size(); i++)
- //           {
- //               //checks if the process page isn't in the memory
- //               //NOTE first get is process, second get is the page
- //               //it gets the i process and checks the 0 page id to see if its true or false
- //               if(ready.get(i).check(ready.get(i).getPageId())==false)
- //               {
- //                   //adds the page fault at the current time
- //                   ready.get(i).addFault(time);
- //                   //adds the page to memory
- //                   ready.get(i).addToMemory(ready.get(i).getPageId());
- //                   //adds the process to blocked queue
- //                   blocked.add(ready.get(i));
- //                   //removes it from ready queue
- //                   ready.remove(ready.get(i));
- //               }
- //               //if the page is in memory run
- //               if(ready.get(i).check(ready.get(i).getPageId())==true)
- //               {
- //                   //adds the process to running queue
- //                   running.add(ready.get(i));
- //                   //removes it from ready queue
- //                   ready.remove(ready.get(i));
- //               }
- //           }
-//
- //           //blocked queue
- //           for(int i = 0; i < blocked.size(); i++)
- //           {
- //               //adds a counter to the memeoryprocessing
- //               blocked.get(i).addMP();
- //           }
- //           //running queue
- //           for(int i = 0; i < running.size(); i++)
- //           {
-//
- //           }
- //           time++; //increment time
-//
- //       }//end of while loop
+        //program runs while running,blocked or ready queue is still doing stuff
+        while(!running.isEmpty() || !ready.isEmpty() || !blocked.isEmpty())
+        {
+            //if ready list is not empty
+            if(!ready.isEmpty())
+            {
+                //adds all processes checks if they are ready to access the main memory
+                for(int i = 0; i < ready.size(); i++)
+                {
+                    //checks if the process page isn't in the memory
+                    //NOTE first get is process, second get is the page
+                    //it gets the i process and checks the 0 page id to see if its true or false
+                    if(!ready.get(i).getMa().check(ready.get(i).getPages().get(0).getPageId()))
+                    {
+                        ready.get(i).addFault(time);                            //adds the page fault at the current time
+                        ready.get(i).addToMemory(ready.get(i).getPages().get(0).getPageId());     //adds the page to memory to start processing
+                        blocked.add(ready.get(i));                              //adds the process to blocked queue
+                        ready.remove(ready.get(i));                             //removes it from ready queue
+                    }
+                    //if the page is in memory run
+                    if(ready.get(i).getMa().check(ready.get(i).getPages().get(0).getPageId()))
+                    {
+                        //adds the process to running queue
+                        running.add(ready.get(i));
+                        //removes it from ready queue
+                        ready.remove(ready.get(i));
+                    }
+                }
+            }
+
+            //if blocked queue is not empty run
+            if(!blocked.isEmpty())
+            {
+                //blocked queue
+                for(int i = 0; i < blocked.size(); i++)
+                {
+                    //adds a counter to the memeoryprocessing
+                    blocked.get(i).getPages().get(0).upPt();
+
+                    //if the page fully loaded for 6 frames
+                    if(blocked.get(i).getPages().get(0).checkPt())
+                    {
+                        //put process into ready queue
+                        ready.add(blocked.get(i));
+                    }
+                }
+            }
+
+            Collections.sort(ready);
+
+            //running queue
+            for(int i = 0; i < running.size(); i++)
+            {
+
+            }
+            time++; //increment time
+
+        }//end of while loop
 
     }//end of cpurunning
 

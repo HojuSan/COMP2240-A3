@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.ArrayList;
 
-public class Process
+public class Process implements Comparable<Process>
 {
     //variables
     private String id;
@@ -30,14 +30,6 @@ public class Process
         this.faultCount = 0;
         this.faultTimes = new ArrayList<Integer>();
     }
-
-//    public void print()
-//    {
-//        for(int i = 0; i < pages.size(); i++)
-//        {
-//            System.out.println(pages.get(i).getPageId());
-//        }
-//    }
 
     //setters
     public void addToMemory(String id)
@@ -87,6 +79,15 @@ public class Process
     public LinkedList<Page> getPages()
     {
         return pages;
+    }
+    public MemoryAllocation getMa()
+    {
+        return ma;
+    }
+    @Override
+    public int compareTo(Process process)
+    {
+        return id.compareTo(process.getProcessId());
     }
 
 }
