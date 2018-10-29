@@ -31,6 +31,7 @@ public class MemoryAllocation
             //checks if the id exists within memory
             if(exists.get(i).equals(id))
             {
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!In MEMORY ALLOCATION");
                 return true;
             }
         }
