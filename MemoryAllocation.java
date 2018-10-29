@@ -18,10 +18,12 @@ public class MemoryAllocation
 
     public void addMa(String id) //adds to memory Allocation
     {
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!In MEMORY ALLOCATION adds this: "+id);
         exists.add(id);
     }
     public boolean check(String id)
     {
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!In MEMORY ALLOCATION");
         //if empty then nothing is in memory
         if(exists.size()==0)
         return false;
@@ -31,7 +33,6 @@ public class MemoryAllocation
             //checks if the id exists within memory
             if(exists.get(i).equals(id))
             {
-                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!In MEMORY ALLOCATION");
                 return true;
             }
         }

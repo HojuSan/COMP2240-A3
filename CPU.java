@@ -70,7 +70,7 @@ public class CPU
                     if(blocked.get(i).getPages().get(0).checkPt())
                     {
 //WOOOT Important, it does the memory allocation here
-                        blocked.get(i).addToMemory(blocked.get(i).getPages().get(0).getPageId());
+                        blocked.get(i).getMa().addMa(blocked.get(i).getPages().get(0).getPageId());
                     //System.out.println("first blocked, adds");
                         //put process into ready queue
                         organiseBlocked.add(blocked.get(i));
@@ -141,6 +141,7 @@ public class CPU
                         //if page is in memory, process it and delete it
                         if(running.get(i).getMa().check(running.get(i).getPages().get(0).getPageId()))
                         {
+
                     System.out.println(running.get(i).getProcessId()+" Page "+running.get(i).getPages().get(0).getPageId());
 
                             //get the first page in the process, and remove it, since its processed

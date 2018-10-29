@@ -32,11 +32,10 @@ public class Process implements Comparable<Process>
     }
 
     //setters
-    public void addToMemory(String id)
-    {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!In MEMORY ALLOCATION");
-        this.ma.addMa(id);
-    }
+//    public void addToMemory(String id)
+//    {
+//        this.ma.addMa(id);
+//    }
     public void addPage(String pageId)
     {
         this.pages.add(new Page(pageId));
