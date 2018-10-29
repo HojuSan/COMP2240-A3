@@ -47,6 +47,31 @@ public class CPU
         //program runs while running,blocked or ready queue is still doing stuff
         while(!running.isEmpty() || !ready.isEmpty() || !blocked.isEmpty())
         {
+            //currently order is
+            //check blocked-->then ready---> then go to running
+
+
+            //if blocked queue is not empty run
+            if(!blocked.isEmpty())
+            {
+                //blocked queue
+                for(int i = 0; i < blocked.size(); i++)
+                {
+                    //adds a counter to the memeoryprocessing
+                    blocked.get(i).getPages().get(0).upPt();
+
+                    //if the page fully loaded for 6 frames
+                    if(blocked.get(i).getPages().get(0).checkPt())
+                    {
+                        //put process into ready queue
+                        ready.add(blocked.get(i));
+                    }
+                }
+            }
+
+            //sort the ready queue so the right process begins doing stuff
+            Collections.sort(ready);
+
             //if ready list is not empty
             if(!ready.isEmpty())
             {
@@ -73,32 +98,28 @@ public class CPU
                     }
                 }
             }
-
-            //if blocked queue is not empty run
-            if(!blocked.isEmpty())
+//TODO needs working on, something with time might be wrong
+            //executes the pages in the process
+            if(!running.isEmpty())
             {
-                //blocked queue
-                for(int i = 0; i < blocked.size(); i++)
+                //running queue
+                for(int i = 0; i < running.size(); i++)
                 {
-                    //adds a counter to the memeoryprocessing
-                    blocked.get(i).getPages().get(0).upPt();
-
-                    //if the page fully loaded for 6 frames
-                    if(blocked.get(i).getPages().get(0).checkPt())
+                    //starts at 1 since timequantam doesn't start at 0
+                    for(int j = 1; j<timeQuantum;j++)
                     {
-                        //put process into ready queue
-                        ready.add(blocked.get(i));
+                        //first frame
+                        if(running.get(i).getMa().check(running.get(i).getPages().get(0).getPageId()))
+                        {
+                            //get the first page in the process, and remove it, since its processed
+                            running.get(i).getPages().remove(running.get(i).getPages().get(0));
+                            time++;
+                        }
                     }
+
                 }
             }
 
-            Collections.sort(ready);
-
-            //running queue
-            for(int i = 0; i < running.size(); i++)
-            {
-
-            }
             time++; //increment time
 
         }//end of while loop
