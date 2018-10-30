@@ -9,13 +9,13 @@ import java.util.List;
 import java.util.LinkedList;
 public class MemoryAllocation
 {
-    private List<String> exists;
+    private LinkedList<MemoryFrame> exists;
     private int frames;
     // constructor
     public MemoryAllocation(int frames) 
     {
         this.frames = frames;
-        exists = new LinkedList<String>();
+        exists = new LinkedList<MemoryFrame>();
     }
 
     public int getFrames()
@@ -24,12 +24,13 @@ public class MemoryAllocation
     }
     public void addMa(String id) //adds to memory Allocation
     {
-//        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!In MEMORY ALLOCATION adds this: "+id);
-        exists.add(id);
+//        if(exists.size()<=frames)
+//        {
+            exists.add(new MemoryFrame(id));
+//        }
     }
     public boolean check(String id)
     {
-//        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!In MEMORY ALLOCATION");
         //if empty then nothing is in memory
         if(exists.size()==0)
         return false;
@@ -37,8 +38,9 @@ public class MemoryAllocation
         for(int i = 0; i < exists.size(); i++)
         {
             //checks if the id exists within memory
-            if(exists.get(i).equals(id))
+            if(exists.get(i).getMFId().equals(id))
             {
+                exists.get(i).upUsage();
                 return true;
             }
         }
