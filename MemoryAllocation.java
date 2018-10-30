@@ -121,6 +121,7 @@ public class MemoryAllocation
             exists.get(pointer).starFalse();
             pointerNext();
         }
+        exists.remove(pointer);
         exists.add(pointer, new MemoryFrame(id));
         pointerNext();
     }
