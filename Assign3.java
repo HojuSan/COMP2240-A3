@@ -53,7 +53,7 @@ public class Assign3
         //testing sections
         cpu.events();
 //        System.out.println(cpu.print()); //prints process values from, Memory Allocation
-//        System.out.println(cpu.printLRU());
+        System.out.println(cpu.printLRU());
 //        System.out.println(cpu.printClock());
 //        for(int i = 0; i < process1.getSize(); i++)
 //        {

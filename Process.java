@@ -32,10 +32,10 @@ public class Process implements Comparable<Process>
     }
 
     //setters
-//    public void addToMemory(String id)
-//    {
-//        this.ma.addMa(id);
-//    }
+    public void setTat(int tat)
+    {
+        this.turnaroundTime = tat;
+    }
     public void addPage(String pageId)
     {
         this.pages.add(new Page(pageId));
@@ -59,7 +59,11 @@ public class Process implements Comparable<Process>
     {
         return id;
     }
-    public String getFault()    //prints the faults
+    public int getFaultCount()
+    {
+        return faultCount;
+    }
+    public String getFaults()    //prints the faults
     {
         String token1 = "{";
 
@@ -69,7 +73,10 @@ public class Process implements Comparable<Process>
             {
                 token1 += faultTimes.get(i);
             }
-            token1 += ", " + faultTimes.get(i);
+            else
+            {
+                token1 += ", " + faultTimes.get(i);
+            }
         }
 
         token1 += "}";

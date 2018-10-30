@@ -57,7 +57,9 @@ public class CPU
             //it gets the i process and checks the 0 page id to see if its true or false
             if(!ready.get(i).getMa().check(ready.get(i).getPages().get(0).getPageId()))
             {
+                System.out.println(ready.get(i).getProcessId()+" has page faulted at time "+time);
                 ready.get(i).addFault(time);                            //adds the page fault at the current time
+                System.out.println(ready.get(i).getProcessId()+" fault count is at "+ready.get(i).getFaultCount());
                 faulted.add(ready.get(i));                              //adds the process to blocked queue
                 ready.remove(ready.get(i));                             //removes it from ready queue
                 i--;
@@ -67,7 +69,7 @@ public class CPU
         //finished queue is not full
         while(finished.size()!=processCount)
         {
-            System.out.println("TIMER::::::::::::::beginning of while loop, time is "+time);
+//            System.out.println("TIMER::::::::::::::beginning of while loop, time is "+time);
 
             if(!faulted.isEmpty())
             {
@@ -90,7 +92,7 @@ public class CPU
 //running starts here            //executes the pages in the process
             if(!running.isEmpty())
             {
-                System.out.println("program is running "+running.get(0).getProcessId()+" at time: "+time);
+//                System.out.println("program is running "+running.get(0).getProcessId()+" at time: "+time);
                 //running queue, page runs, executes for timeQuantum amount
                 for(int j = 0; j < timeQuantum; j++)
                 {
@@ -98,7 +100,7 @@ public class CPU
                     if(running.get(0).getMa().check(running.get(0).getPages().get(0).getPageId()))
                     {
 
-                        System.out.println(running.get(0).getProcessId()+" is running at time: "+time+ " counterj is at: "+j);
+//                        System.out.println(running.get(0).getProcessId()+" is running at time: "+time+ " counterj is at: "+j);
 
                         //get the first page in the process, and remove it, since its processed
                         running.get(0).getPages().remove(running.get(0).getPages().get(0));
@@ -108,10 +110,11 @@ public class CPU
                         if(running.get(0).getPages().isEmpty())
                         {
                             time++;
-                            System.out.println("@@@@@@@@@@@@@"+running.get(0).getProcessId()+" at " +time+ " has left the queue");
+//                            System.out.println("@@@@@@@@@@@@@"+running.get(0).getProcessId()+" at " +time+ " has left the queue");
+                            running.get(0).setTat(time);
                             finished.add(running.get(0));
                             running.remove(running.get(0));
-                            
+
                             doBlocked();
                             doorganiseBlocked();
                             checkReady();
@@ -120,13 +123,13 @@ public class CPU
                         }
                         if(j==2)
                         {
-                            System.out.println("%%%%%%%% putting "+running.get(0).getProcessId()+" from running into ready here at time: "+time);
+//                           System.out.println("%%%%%%%% putting "+running.get(0).getProcessId()+" from running into ready here at time: "+time);
                             ready.add(running.get(0));
                             running.remove(running.get(0));
                             
                         }
                         time++;
-                        System.out.println("TIMER::::::::::::::after a process runs once, time is "+time);
+//                        System.out.println("TIMER::::::::::::::after a process runs once, time is "+time);
                         doBlocked();
                         doorganiseBlocked();
                         checkReady();
@@ -138,6 +141,7 @@ public class CPU
                         System.out.println(running.get(0).getProcessId()+" has page faulted at time "+time);
 
                         running.get(0).addFault(time);                            //adds the page fault at the current time
+                        System.out.println(running.get(0).getProcessId()+" fault count is at "+running.get(0).getFaultCount());
                         faulted.add(running.get(0));                              //adds the process to blocked queue          
                         running.remove(running.get(0));                           //removes it from ready queue
                         checkReady();
@@ -156,7 +160,7 @@ public class CPU
             {
                 //nothing ran, just increment time instead
                 time++;
-                System.out.println("TIMER::::::::::::::end of while loop, time is "+time);
+//                System.out.println("TIMER::::::::::::::end of while loop, time is "+time);
 
                 //if blocked queue is not empty run
                 if(!blocked.isEmpty())
@@ -176,7 +180,7 @@ public class CPU
         }//end of while loop
         //this should be 38 or 39
         //currently 52
-        System.out.println("4.end of while loop, time is "+time);
+//        System.out.println("4.end of while loop, time is "+time);
     }//end of cpurunning
     public void doBlocked()
     {
@@ -185,12 +189,12 @@ public class CPU
         {
             //adds a counter to the memeoryprocessing
             blocked.get(i).getPages().get(0).upPt();
-            System.out.println("-------------"+blocked.get(i).getProcessId()+" is at "+blocked.get(i).getPages().get(0).getPt()+" currently at time: "+time+" in doBlocked");
+//            System.out.println("-------------"+blocked.get(i).getProcessId()+" is at "+blocked.get(i).getPages().get(0).getPt()+" currently at time: "+time+" in doBlocked");
 
             //if the page fully loaded for 6 frames
             if(blocked.get(i).getPages().get(0).checkPt())
             {
-                System.out.println("$$$$$$$$ "+blocked.get(i).getProcessId()+" is leaving the blocked into ready at time: "+time);
+//                System.out.println("$$$$$$$$ "+blocked.get(i).getProcessId()+" is leaving the blocked into ready at time: "+time);
                 blocked.get(i).getMa().addMa(blocked.get(i).getPages().get(0).getPageId());
                 //put process into ready queue
                 organiseBlocked.add(blocked.get(i));
@@ -223,7 +227,7 @@ public class CPU
     {
         for(int r = 0; r < ready.size();r++)
         {
-            System.out.println("$----->"+ready.get(r).getProcessId()+" is in ready queue at time: "+time);
+//            System.out.println("$----->"+ready.get(r).getProcessId()+" is in ready queue at time: "+time);
         }
     }
 
@@ -253,10 +257,12 @@ public class CPU
     //TODO returns values
     public String printLRU()  
     {
+        Collections.sort(finished);
+
         String token1="LRU - Fixed:\nPID  Turnaround Time  # Faults  Fault Times\n";
         for(int i = 0; i < processCount;i++)
         {
-            token1 += i + " woot\n";
+            token1 += i+1 + "    "+finished.get(i).getTat()+"               "+finished.get(i).getFaultCount()+"         "+finished.get(i).getFaults()+"\n";
         }
         return token1;
     }
