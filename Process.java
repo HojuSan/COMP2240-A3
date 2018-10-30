@@ -19,11 +19,13 @@ public class Process implements Comparable<Process>
     private LinkedList<Page> pages;
     private Page newPage;
     private MemoryAllocation ma;
+    private int frames;
 
     //constructor
-    public Process(String id)
+    public Process(String id,int frames)
     {
-        this.ma = new MemoryAllocation();
+        this.frames = frames;
+        this.ma = new MemoryAllocation(frames);
         this.pages = new LinkedList<Page>();
         this.id = id;
         this.turnaroundTime = 0;

@@ -46,6 +46,7 @@ public class CPU
     public void events()
     {
 
+//        System.out.println("frames is "+ ready.get(0).getMa().getFrames());
         //organise queue before beginning
         Collections.sort(ready);
 
@@ -57,9 +58,9 @@ public class CPU
             //it gets the i process and checks the 0 page id to see if its true or false
             if(!ready.get(i).getMa().check(ready.get(i).getPages().get(0).getPageId()))
             {
-                System.out.println(ready.get(i).getProcessId()+" has page faulted at time "+time);
+//                System.out.println(ready.get(i).getProcessId()+" has page faulted at time "+time);
                 ready.get(i).addFault(time);                            //adds the page fault at the current time
-                System.out.println(ready.get(i).getProcessId()+" fault count is at "+ready.get(i).getFaultCount());
+//                System.out.println(ready.get(i).getProcessId()+" fault count is at "+ready.get(i).getFaultCount());
                 faulted.add(ready.get(i));                              //adds the process to blocked queue
                 ready.remove(ready.get(i));                             //removes it from ready queue
                 i--;
@@ -138,10 +139,10 @@ public class CPU
                     //page blocks cause its not in memory
                     else if(!running.get(0).getMa().check(running.get(0).getPages().get(0).getPageId()))
                     {
-                        System.out.println(running.get(0).getProcessId()+" has page faulted at time "+time);
+//                        System.out.println(running.get(0).getProcessId()+" has page faulted at time "+time);
 
                         running.get(0).addFault(time);                            //adds the page fault at the current time
-                        System.out.println(running.get(0).getProcessId()+" fault count is at "+running.get(0).getFaultCount());
+//                        System.out.println(running.get(0).getProcessId()+" fault count is at "+running.get(0).getFaultCount());
                         faulted.add(running.get(0));                              //adds the process to blocked queue          
                         running.remove(running.get(0));                           //removes it from ready queue
                         checkReady();
@@ -271,7 +272,7 @@ public class CPU
         String token1="Clock - Fixed:\nPID  Turnaround Time  # Faults  Fault Times\n";
         for(int i = 0; i < processCount;i++)
         {
-            token1 += i + " woot\n";
+            token1 += i+1 + "    "+finished.get(i).getTat()+"               "+finished.get(i).getFaultCount()+"         "+finished.get(i).getFaults()+"\n";
         }
         return token1;
     }

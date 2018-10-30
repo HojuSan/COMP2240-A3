@@ -20,8 +20,12 @@ public class Assign3
 {
     public static void main(String[] args) throws IOException
     {
+        //its just clean
+        System.out.println("\n");
+        
         //variables
         //these values hardcoded for testing purposes
+        int pCount=4;
         int timeQuantum = 3;
         int frames = 30;
 
@@ -32,10 +36,10 @@ public class Assign3
         String f4 = "Process4.txt";
 
         //data from the file
-        Process process1 = new Process(f1);
-        Process process2 = new Process(f2);
-        Process process3 = new Process(f3);
-        Process process4 = new Process(f4);
+        Process process1 = new Process(f1,frames/pCount);
+        Process process2 = new Process(f2,frames/pCount);
+        Process process3 = new Process(f3,frames/pCount);
+        Process process4 = new Process(f4,frames/pCount);
 
         //load data from files into processes
         readFile(f1,process1);
@@ -45,6 +49,7 @@ public class Assign3
 
         //adds the process into the memory allocation
         CPU cpu = new CPU(timeQuantum, frames);
+
         cpu.addProcess(process1);
         cpu.addProcess(process2);
         cpu.addProcess(process3);
@@ -54,7 +59,7 @@ public class Assign3
         cpu.events();
 //        System.out.println(cpu.print()); //prints process values from, Memory Allocation
         System.out.println(cpu.printLRU());
-//        System.out.println(cpu.printClock());
+        System.out.println(cpu.printClock());
 //        for(int i = 0; i < process1.getSize(); i++)
 //        {
 //           System.out.println(process1.getPage().get(i));

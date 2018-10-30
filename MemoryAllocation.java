@@ -10,12 +10,18 @@ import java.util.LinkedList;
 public class MemoryAllocation
 {
     private List<String> exists;
+    private int frames;
     // constructor
-    public MemoryAllocation() 
+    public MemoryAllocation(int frames) 
     {
+        this.frames = frames;
         exists = new LinkedList<String>();
     }
 
+    public int getFrames()
+    {
+        return frames;
+    }
     public void addMa(String id) //adds to memory Allocation
     {
 //        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!In MEMORY ALLOCATION adds this: "+id);
