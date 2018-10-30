@@ -11,11 +11,11 @@ public class MemoryAllocation
 {
     private LinkedList<MemoryFrame> exists;
     private int frames;
-    private int clock;
+    private int pointer;
     // constructor
     public MemoryAllocation(int frames) 
     {
-        this.clock = 0;
+        this.pointer = 0;
         this.frames = frames;
         exists = new LinkedList<MemoryFrame>();
     }
@@ -73,31 +73,15 @@ public class MemoryAllocation
         //clock policy update
         else if(policy.equals("clock"))
         {
-            int counter = 0;
-
-            //check if all of them are stars
+            //simply checks if it exists
             for(int i = 0; i < exists.size(); i++)
             {
-                if(exists.get(i).getStar()==true)
+                //checks if the id exists within memory
+                if(exists.get(i).getMFId().equals(id))
                 {
-                    counter++;
+                    return true;
                 }
             }
-            //all of the 
-            if(counter == exists.size()-1)
-            {
-
-            }
-
-
-
-
-
-
-
-
-
-
             return false;
         }
         else
@@ -106,6 +90,19 @@ public class MemoryAllocation
         }
 
 
+    }
+    //makes the pointer point to the next value
+    public void pointerNext()
+    {
+        //up pointer location
+        if(pointer<exists.size()-1)
+        {
+            pointer++;
+        }
+        else    //set it to zero
+        {
+            pointer=0;
+        }
     }
     //uses least recently used policy
     public void lru(String id)
@@ -116,11 +113,16 @@ public class MemoryAllocation
         exists.add(new MemoryFrame(id));
     }
     //uses clock policy
-    public void clock()
+    public void clock(String id)
     {
-
-//TODO  STARSHIEEEEEEEEEEET
-
+        //while pointer location is true
+        while(exists.get(pointer).getStar()==true)
+        {
+            exists.get(pointer).starFalse();
+            pointerNext();
+        }
+        exists.add(pointer, new MemoryFrame(id));
+        pointerNext();
     }
 
 }//end of class

@@ -1,33 +1,28 @@
-//* File:                       Main.java
-// * Course:                    COMP2240
-//  * Assignment:               Assignment3
-//   * Name:                    Juyong Kim  
-//    * Student Number:         c3244203
-//     * Purpose:               Primary file and then blah blah more explanation of shiet
-//      * 
 public class MemoryFrame
 {
     private String id;
-    private int usage;
+    private boolean star;
+
     public MemoryFrame(String id)
     {
         this.id = id;
-        this.usage = 0;
+        this.star = true;
     }
 
-    //getters
     public String getMFId()
     {
         return id;
     }
-    public int getUsage()
+    public Boolean getStar()
     {
-        return usage;
+        return star;
     }
-
-    //setters
-    public void upUsage()
+    public void starTrue()
     {
-        this.usage++;
+        star = true;
+    }
+    public void starFalse()
+    {
+        star = false;
     }
 }

@@ -58,12 +58,12 @@ public class Assign3
 
         //adds the process into the memory allocation
 
-        CPU cpu1 = new CPU(timeQuantum, frames,"lru");
+//        CPU cpu1 = new CPU(timeQuantum, frames,"lru");
         CPU cpu2 = new CPU(timeQuantum, frames,"clock");
 
-        cpu1.addProcess(process1);
-        cpu1.addProcess(process2);
-        cpu1.addProcess(process3);
+//        cpu1.addProcess(process1);
+//        cpu1.addProcess(process2);
+//        cpu1.addProcess(process3);
 //        cpu1.addProcess(process4);
 
         cpu2.addProcess(process1);
@@ -72,10 +72,11 @@ public class Assign3
 //        cpu2.addProcess(process4);
 
         //testing sections
-        cpu1.events();
+//        cpu1.events();
+        cpu2.events();
 //        System.out.println(cpu.print()); //prints process values from, Memory Allocation
-        System.out.println(cpu1.printLRU());
-        System.out.println(cpu1.printClock());
+//        System.out.println(cpu1.printLRU());
+        System.out.println(cpu2.printClock());
 //        for(int i = 0; i < process1.getSize(); i++)
 //        {
 //           System.out.println(process1.getPage().get(i));
