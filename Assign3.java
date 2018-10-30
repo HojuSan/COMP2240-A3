@@ -50,11 +50,19 @@ public class Assign3
         Process process3 = new Process(f3,frames/pCount);
 //        Process process4 = new Process(f4,frames/pCount);
 
+        Process process4 = new Process(f1,frames/pCount);
+        Process process5 = new Process(f2,frames/pCount);
+        Process process6 = new Process(f3,frames/pCount);
+
         //load data from files into processes
         readFile(f1,process1);
         readFile(f2,process2);
         readFile(f3,process3);
 //        readFile(f4,process4);
+
+        readFile(f1,process4);
+        readFile(f2,process5);
+        readFile(f3,process6);
 
         //adds the process into the memory allocation
 
@@ -66,17 +74,16 @@ public class Assign3
         cpu1.addProcess(process3);
 //        cpu1.addProcess(process4);
 
-        cpu2.addProcess(process1);
-        cpu2.addProcess(process2);
-        cpu2.addProcess(process3);
+        cpu2.addProcess(process4);
+        cpu2.addProcess(process5);
+        cpu2.addProcess(process6);
 //        cpu2.addProcess(process4);
 
         //testing sections
-//        cpu1.events();
-//        System.out.println(cpu1.printLRU());
+        cpu1.events();
+        System.out.println(cpu1.printLRU());
         cpu2.events();
         System.out.println(cpu2.printClock());
-//        System.out.println(cpu.print()); //prints process values from, Memory Allocation
 //        System.out.println(cpu1.printLRU());
 //        System.out.println(cpu2.printClock());
 //        for(int i = 0; i < process1.getSize(); i++)

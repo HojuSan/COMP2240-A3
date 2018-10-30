@@ -113,7 +113,7 @@ public class CPU
                         if(running.get(0).getPages().isEmpty())
                         {
                             time++;
-                            System.out.println("@@@@@@@@@@@@@"+running.get(0).getProcessId()+" at " +time+ " has left the queue");
+//                            System.out.println("@@@@@@@@@@@@@"+running.get(0).getProcessId()+" at " +time+ " has left the queue");
                             running.get(0).setTat(time);
                             finished.add(running.get(0));
                             running.remove(running.get(0));
