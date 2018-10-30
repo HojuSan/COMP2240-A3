@@ -20,6 +20,15 @@ public class Assign3
 {
     public static void main(String[] args) throws IOException
     {
+        //args is all string
+        //convert into intger
+//        frames = args[0];
+//        timeQuantum = args[1];
+//        f1 = args[2];
+//        f2 = args[3];
+//        f3 = args[4];
+//        f4 = args[5];
+
         //its just clean
         System.out.println("\n");
         
@@ -33,33 +42,40 @@ public class Assign3
         String f1 = "Process1.txt";
         String f2 = "Process2.txt";
         String f3 = "Process3.txt";
-        String f4 = "Process4.txt";
+//        String f4 = "Process4.txt";
 
         //data from the file
         Process process1 = new Process(f1,frames/pCount);
         Process process2 = new Process(f2,frames/pCount);
         Process process3 = new Process(f3,frames/pCount);
-        Process process4 = new Process(f4,frames/pCount);
+//        Process process4 = new Process(f4,frames/pCount);
 
         //load data from files into processes
         readFile(f1,process1);
         readFile(f2,process2);
         readFile(f3,process3);
-        readFile(f4,process4);
+//        readFile(f4,process4);
 
         //adds the process into the memory allocation
-        CPU cpu = new CPU(timeQuantum, frames);
 
-        cpu.addProcess(process1);
-        cpu.addProcess(process2);
-        cpu.addProcess(process3);
-        cpu.addProcess(process4);
+        CPU cpu1 = new CPU(timeQuantum, frames,"lru");
+        CPU cpu2 = new CPU(timeQuantum, frames,"clock");
+
+        cpu1.addProcess(process1);
+        cpu1.addProcess(process2);
+        cpu1.addProcess(process3);
+//        cpu1.addProcess(process4);
+
+        cpu2.addProcess(process1);
+        cpu2.addProcess(process2);
+        cpu2.addProcess(process3);
+//        cpu2.addProcess(process4);
 
         //testing sections
-        cpu.events();
+        cpu1.events();
 //        System.out.println(cpu.print()); //prints process values from, Memory Allocation
-        System.out.println(cpu.printLRU());
-        System.out.println(cpu.printClock());
+        System.out.println(cpu1.printLRU());
+        System.out.println(cpu1.printClock());
 //        for(int i = 0; i < process1.getSize(); i++)
 //        {
 //           System.out.println(process1.getPage().get(i));

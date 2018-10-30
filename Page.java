@@ -10,23 +10,17 @@ public class Page
     private String id;
     private int processingTime;
     private final int memPro = 6;
-//    private int usedCount;
 
     public Page(String id)
     {
         this.id = id;
         processingTime = 0;
-        this.usedCount = 0;
     }
 
     public String getPageId()
     {
         return id;
     }
-//    public int getUsedCount()
-//    {
-//        return usedCount;
-//    }
     public void upPt()
     {
         processingTime++;

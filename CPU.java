@@ -23,9 +23,10 @@ public class CPU
     private int frames;
     private int time;
     private int dummy;
+    private String policy;
 
     // constructor
-    public CPU(int timeQuantum, int frames) 
+    public CPU(int timeQuantum, int frames, String policy) 
     {
         //contains a list of all the processes
         faulted = new LinkedList<Process>();
@@ -40,6 +41,7 @@ public class CPU
         time = 0;
         //delete after testing
         dummy = 0;
+        this.policy = policy;
     }
 
     //functions
@@ -56,7 +58,7 @@ public class CPU
             //checks if the process page isn't in the memory
             //NOTE first get is process, second get is the page
             //it gets the i process and checks the 0 page id to see if its true or false
-            if(!ready.get(i).getMa().check(ready.get(i).getPages().get(0).getPageId()))
+            if(!ready.get(i).getMa().check(ready.get(i).getPages().get(0).getPageId(),policy))
             {
 //                System.out.println(ready.get(i).getProcessId()+" has page faulted at time "+time);
                 ready.get(i).addFault(time);                            //adds the page fault at the current time
@@ -98,7 +100,7 @@ public class CPU
                 for(int j = 0; j < timeQuantum; j++)
                 {
                     //if page is in memory, process it and delete it
-                    if(running.get(0).getMa().check(running.get(0).getPages().get(0).getPageId()))
+                    if(running.get(0).getMa().check(running.get(0).getPages().get(0).getPageId(),policy))
                     {
 
 //                        System.out.println(running.get(0).getProcessId()+" is running at time: "+time+ " counterj is at: "+j);
@@ -111,7 +113,7 @@ public class CPU
                         if(running.get(0).getPages().isEmpty())
                         {
                             time++;
-//                            System.out.println("@@@@@@@@@@@@@"+running.get(0).getProcessId()+" at " +time+ " has left the queue");
+                            System.out.println("@@@@@@@@@@@@@"+running.get(0).getProcessId()+" at " +time+ " has left the queue");
                             running.get(0).setTat(time);
                             finished.add(running.get(0));
                             running.remove(running.get(0));
@@ -137,7 +139,7 @@ public class CPU
 
                     }
                     //page blocks cause its not in memory
-                    else if(!running.get(0).getMa().check(running.get(0).getPages().get(0).getPageId()))
+                    else if(!running.get(0).getMa().check(running.get(0).getPages().get(0).getPageId(),policy))
                     {
 //                        System.out.println(running.get(0).getProcessId()+" has page faulted at time "+time);
 
@@ -196,7 +198,7 @@ public class CPU
             if(blocked.get(i).getPages().get(0).checkPt())
             {
 //                System.out.println("$$$$$$$$ "+blocked.get(i).getProcessId()+" is leaving the blocked into ready at time: "+time);
-                blocked.get(i).getMa().addMa(blocked.get(i).getPages().get(0).getPageId());
+                blocked.get(i).getMa().addMa(blocked.get(i).getPages().get(0).getPageId(),policy);
                 //put process into ready queue
                 organiseBlocked.add(blocked.get(i));
                 //add to organisation blocked list then remove it from blocked queue

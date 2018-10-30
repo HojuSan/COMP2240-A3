@@ -17,7 +17,6 @@ public class Process implements Comparable<Process>
     private int faultCount;
     private ArrayList<Integer> faultTimes;
     private LinkedList<Page> pages;
-    private Page newPage;
     private MemoryAllocation ma;
     private int frames;
 
