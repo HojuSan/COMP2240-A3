@@ -44,9 +44,6 @@ public class CPU
     //functions
     public void events()
     {
-//TODO work on this, currently working on memoryAllocation
-//this thing will get complicated fast
-//work on this carefully and thoughtfully
 
         //organise queue before beginning
         Collections.sort(ready);
@@ -54,140 +51,96 @@ public class CPU
         //finished queue is not full
         while(finished.size()!=processCount)
         {
-            System.out.println("1.beginning of while loop, time is "+time);
-            //currently order is
-            //check blocked-->then ready---> then go to running
+            System.out.println("TIMER::::::::::::::beginning of while loop, time is "+time);
 
 
             //if blocked queue is not empty run
             if(!blocked.isEmpty())
             {
-                //int counter = blocked.size();
-                //blocked queue
-                for(int i = 0; i < blocked.size(); i++)
-                {
-                    //adds a counter to the memeoryprocessing
-                    blocked.get(i).getPages().get(0).upPt();
-
-                    //if the page fully loaded for 6 frames
-                    if(blocked.get(i).getPages().get(0).checkPt())
-                    {
-//WOOOT Important, it does the memory allocation here
-                        blocked.get(i).getMa().addMa(blocked.get(i).getPages().get(0).getPageId());
-                    //System.out.println("first blocked, adds");
-                        //put process into ready queue
-                        organiseBlocked.add(blocked.get(i));
-                        //add to organisation blocked list then remove it from blocked queue
-                        blocked.remove(blocked.get(i));
-                        //since an element has been removed, have to reduce counter by one so it stays
-                        //in same position or it will skip an element
-                        i--;
-                    }
-                }
+                doBlocked();
             }
 
-//TODO this might be in the wrong location figure out where this should go
             //sort the ready queue so the right process begins doing stuff
             if(!organiseBlocked.isEmpty())
             {
-                //int counter = organiseBlocked.size();
-                Collections.sort(organiseBlocked);
-                while(!organiseBlocked.isEmpty())
-                {
-                    ready.add(organiseBlocked.get(0));
-                    organiseBlocked.remove(organiseBlocked.get(0));
-                }
+                doorganiseBlocked();
             }
+
+            //just checking ready queue
+            checkReady();
 
             //if ready list is not empty
             if(!ready.isEmpty())
             {
-                //int counter = ready.size();
-
-                //adds all processes checks if they are ready to access the main memory
-                for(int i = 0; i < ready.size(); i++)
-                {
-                    //checks if the process page isn't in the memory
-                    //NOTE first get is process, second get is the page
-                    //it gets the i process and checks the 0 page id to see if its true or false
-                    if(!ready.get(i).getMa().check(ready.get(i).getPages().get(0).getPageId()))
-                    {
-                        ready.get(i).addFault(time);                            //adds the page fault at the current time
-//                        ready.get(i).getMa().addMa(ready.get(i).getPages().get(0).getPageId());     //adds the page to memory to start processing
-                        blocked.add(ready.get(i));                              //adds the process to blocked queue
-                        ready.remove(ready.get(i));                             //removes it from ready queue
-                        i--;
-                    }
-                    //if the page is in memory run
-                    else if(ready.get(i).getMa().check(ready.get(i).getPages().get(0).getPageId()))
-                    {
-                        //adds the process to running queue
-                        running.add(ready.get(i));
-                        //removes it from ready queue
-                        ready.remove(ready.get(i));
-                        i--;
-                    }
-                }
+                doready();
             }
-//TODO needs working on, something with time might be wrong
-//update turnaround time aka find a way to do it
 
             //executes the pages in the process
             if(!running.isEmpty())
             {
-                //running queue, executes for timeQuantum amount
-                for(int i = 0; i < running.size(); i++)
+                System.out.println("program is running "+running.get(0).getProcessId()+" at time: "+time);
+                //running queue, page runs, executes for timeQuantum amount
+                for(int j = 0; j < timeQuantum; j++)
                 {
-                    //running queue, page runs, executes for timeQuantum amount
-                    for(int j = 0; j < timeQuantum; j++)
+                    //if page is in memory, process it and delete it
+                    if(running.get(0).getMa().check(running.get(0).getPages().get(0).getPageId()))
                     {
-                        //if page is in memory, process it and delete it
-                        if(running.get(i).getMa().check(running.get(i).getPages().get(0).getPageId()))
+
+                        System.out.println(running.get(0).getProcessId()+" is running at time: "+time+ " counterj is at: "+j);
+
+                        //get the first page in the process, and remove it, since its processed
+                        running.get(0).getPages().remove(running.get(0).getPages().get(0));
+
+                        //however if all the pages have finished in that process
+                        //remove the process
+                        if(running.get(0).getPages().isEmpty())
                         {
-
-                            System.out.println(running.get(i).getProcessId()+" Page "+running.get(i).getPages().get(0).getPageId());
-
-                            //get the first page in the process, and remove it, since its processed
-                            running.get(i).getPages().remove(running.get(i).getPages().get(0));
-
-                            //however if all the pages have finished in that process
-                            //remove the process
-                            if(running.get(i).getPages().isEmpty())
-                            {
-                                System.out.println("------------"+running.get(i).getProcessId()+" at " +time+ " has left the queue");
-                                finished.add(running.get(i));
-                                running.remove(running.get(i));
-                                break;
-                            }
+                            System.out.println("@@@@@@@@@@@@@"+running.get(0).getProcessId()+" at " +time+ " has left the queue");
+                            finished.add(running.get(0));
+                            running.remove(running.get(0));
                             time++;
-                            System.out.println("2.after "+running.get(i).getProcessId()+" page processed time is "+time);
-                            //process no longer exists in running, break the loop
-                            //break;
-                        }
-                        //page blocks cause its not in memory
-                        else if(!running.get(i).getMa().check(running.get(i).getPages().get(0).getPageId()))
-                        {
-                            System.out.println(running.get(i).getProcessId()+ " in else if, now loading into meomory/blocked");
-
-                            running.get(i).addFault(time);                            //adds the page fault at the current time
-//                           running.get(i).getMa().addMa(running.get(i).getPages().get(0).getPageId());     //adds the page to memory to start processing
-                            blocked.add(running.get(i));                              //adds the process to blocked queue
-                            blocked.get(blocked.size()-1).getPages().get(0).upPt();   //adds one loading time to the blocked queue thing                
-                            running.remove(running.get(i));                           //removes it from ready queue
-                        //i think when page blocks time doesn't increment
-                            //time++;
-                            System.out.println("3.after page block time is "+time);
-                            i--;
-                            //process no longer exists in running, break the loop
+                            System.out.println("TIMER::::::::::::::after a process finishes, time is "+time);
                             break;
                         }
+                        if(j==2)
+                        {
+                            System.out.println("%%%%%%%% putting "+running.get(0).getProcessId()+" from running into ready here at time: "+time);
+                            ready.add(running.get(0));
+                            running.remove(running.get(0));
+                            
+                        }
+                        time++;
+                        System.out.println("TIMER::::::::::::::after a process runs once, time is "+time);
+                        doBlocked();
+                        doorganiseBlocked();
+                        checkReady();
+
                     }
+                    //page blocks cause its not in memory
+                    else if(!running.get(0).getMa().check(running.get(0).getPages().get(0).getPageId()))
+                    {
+                        System.out.println(running.get(0).getProcessId()+" has page faulted at time "+time);
+
+                        running.get(0).addFault(time);                            //adds the page fault at the current time
+                        blocked.add(running.get(0));                              //adds the process to blocked queue          
+                        running.remove(running.get(0));                           //removes it from ready queue
+                        checkReady();
+
+                        //process no longer exists in running, break the loop
+                        break;
+                    }
+
+                    //once the process finished its slice, but still wants to go, but has to wait its turn
+                    //boot it back into the ready queue
+                    
                 }
+
             }
             else
             {
                 //nothing ran, just increment time instead
                 time++;
+                System.out.println("TIMER::::::::::::::if running queue is empty, time is "+time);
             }
             
         }//end of while loop
@@ -195,6 +148,86 @@ public class CPU
         //currently 52
         System.out.println("4.end of while loop, time is "+time);
     }//end of cpurunning
+    public void doBlocked()
+    {
+        //blocked queue
+        for(int i = 0; i < blocked.size(); i++)
+        {
+            //adds a counter to the memeoryprocessing
+            blocked.get(i).getPages().get(0).upPt();
+            System.out.println("-------------"+blocked.get(i).getProcessId()+" is at "+blocked.get(i).getPages().get(0).getPt()+" currently at time: "+time+" in doBlocked");
+
+            //if the page fully loaded for 6 frames
+            if(blocked.get(i).getPages().get(0).checkPt())
+            {
+                System.out.println("$$$$$$$$ "+blocked.get(i).getProcessId()+" is leaving the blocked into ready at time: "+time);
+                blocked.get(i).getMa().addMa(blocked.get(i).getPages().get(0).getPageId());
+                //put process into ready queue
+                organiseBlocked.add(blocked.get(i));
+                //add to organisation blocked list then remove it from blocked queue
+                blocked.remove(blocked.get(i));
+                //since an element has been removed, have to reduce counter by one so it stays
+                //in same position or it will skip an element
+                i--;
+            }
+        }
+    }
+    public void doorganiseBlocked()
+    {
+        //int counter = organiseBlocked.size();
+        Collections.sort(organiseBlocked);
+        while(!organiseBlocked.isEmpty())
+        {
+            ready.add(organiseBlocked.get(0));
+            organiseBlocked.remove(organiseBlocked.get(0));
+        }
+    }
+    public void doready()
+    {
+        if(time==0)
+        {
+            //adds all processes checks if they are ready to access the main memory
+            for(int i = 0; i < ready.size(); i++)
+            {
+                //checks if the process page isn't in the memory
+                //NOTE first get is process, second get is the page
+                //it gets the i process and checks the 0 page id to see if its true or false
+                if(!ready.get(i).getMa().check(ready.get(i).getPages().get(0).getPageId()))
+                {
+                    System.out.println(ready.get(i).getProcessId()+" has page faulted at time "+time);
+                    ready.get(i).addFault(time);                            //adds the page fault at the current time
+                    System.out.println("-------------"+ready.get(i).getProcessId()+" is at "+ready.get(i).getPages().get(0).getPt()+" currently at time: "+time+" inside doready, sent to blocked");
+                    blocked.add(ready.get(i));                              //adds the process to blocked queue
+                    ready.remove(ready.get(i));                             //removes it from ready queue
+                    i--;
+                }
+                //if the page is in memory run
+                else if(ready.get(i).getMa().check(ready.get(i).getPages().get(0).getPageId()))
+                {
+                    //adds the process to running queue
+                    running.add(ready.get(i));
+                    //removes it from ready queue
+                    ready.remove(ready.get(i));
+                    i--;
+                }
+            }
+        }
+        else
+        {
+            //adds the process to running queue
+            running.add(ready.get(0));
+            //removes it from ready queue
+            ready.remove(ready.get(0));
+        }
+
+    }
+    public void checkReady()
+    {
+        for(int r = 0; r < ready.size();r++)
+        {
+            System.out.println("$----->"+ready.get(r).getProcessId()+" is in ready queue at time: "+time);
+        }
+    }
 
     public void addProcess(Process process) //Setting the process into a list
     {

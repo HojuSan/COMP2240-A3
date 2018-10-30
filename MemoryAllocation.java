@@ -18,7 +18,7 @@ public class MemoryAllocation
 
     public void addMa(String id) //adds to memory Allocation
     {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!In MEMORY ALLOCATION adds this: "+id);
+//        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!In MEMORY ALLOCATION adds this: "+id);
         exists.add(id);
     }
     public boolean check(String id)
