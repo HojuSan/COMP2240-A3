@@ -95,7 +95,7 @@ public class CPU
 //running starts here            //executes the pages in the process
             if(!running.isEmpty())
             {
-//                System.out.println("program is running "+running.get(0).getProcessId()+" at time: "+time);
+                System.out.println("program is running "+running.get(0).getProcessId()+" at time: "+time);
                 //running queue, page runs, executes for timeQuantum amount
                 for(int j = 0; j < timeQuantum; j++)
                 {
@@ -126,7 +126,7 @@ public class CPU
                         }
                         if(j==timeQuantum-1)
                         {
-//                           System.out.println("%%%%%%%% putting "+running.get(0).getProcessId()+" from running into ready here at time: "+time);
+                           System.out.println("%%%%%%%% putting "+running.get(0).getProcessId()+" from running into ready here at time: "+time);
                             ready.add(running.get(0));
                             running.remove(running.get(0));
                             
@@ -141,7 +141,7 @@ public class CPU
                     //page blocks cause its not in memory
                     else if(!running.get(0).getMa().check(running.get(0).getPages().get(0).getPageId(),policy))
                     {
-//                        System.out.println(running.get(0).getProcessId()+" has page faulted at time "+time);
+                        System.out.println(running.get(0).getProcessId()+" has page faulted at time "+time);
 
                         running.get(0).addFault(time);                            //adds the page fault at the current time
 //                        System.out.println(running.get(0).getProcessId()+" fault count is at "+running.get(0).getFaultCount());
