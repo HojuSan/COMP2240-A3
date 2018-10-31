@@ -3,7 +3,7 @@
 //  * Assignment:               Assignment3
 //   * Name:                    Juyong Kim  
 //    * Student Number:         c3244203
-//     * Purpose:               Primary file and then blah blah more explanation of shiet
+//     * Purpose:               Main file
 //      * 
 import java.util.Scanner;
 import java.io.File;
@@ -22,8 +22,9 @@ public class Assign3
     {
         //args is all string
         //convert into intger
-//        frames = args[0];
-//        timeQuantum = args[1];
+        int frames = Integer.parseInt(args[0]);
+        //errors with time slice
+        int timeQuantum = Integer.parseInt(args[1]);
 //        f1 = args[2];
 //        f2 = args[3];
 //        f3 = args[4];
@@ -35,8 +36,8 @@ public class Assign3
         //variables
         //these values hardcoded for testing purposes
         int pCount=4;
-        int timeQuantum = 3;
-        int frames = 30;
+//        int timeQuantum = 3;
+//        int frames = 30;
 
         //files
         String f1 = "Process1.txt";

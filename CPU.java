@@ -124,7 +124,7 @@ public class CPU
                             //System.out.println("TIMER::::::::::::::after a process finishes, time is "+time);
                             break;
                         }
-                        if(j==2)
+                        if(j==timeQuantum-1)
                         {
 //                           System.out.println("%%%%%%%% putting "+running.get(0).getProcessId()+" from running into ready here at time: "+time);
                             ready.add(running.get(0));
