@@ -5,6 +5,7 @@
 //    * Student Number:         c3244203
 //     * Purpose:               Has a list of memory frames, that contains information
 //      *                       used to allocated memory. Has functions to manipulate them
+
 //libraries
 import java.util.List;
 import java.util.LinkedList;
@@ -65,7 +66,7 @@ public class MemoryAllocation
             }
             return false;
         }
-        else
+        else                                    //else just return false
         {
             return false;
         }
@@ -79,7 +80,7 @@ public class MemoryAllocation
         {
             pointer++;
         }
-        else    //set it to zero
+        else    //set it to zero if it exceeds
         {
             pointer=0;
         }
@@ -113,8 +114,8 @@ public class MemoryAllocation
         if(exists.size()<=frames)
         {
             exists.add(new MemoryFrame(id));
-        }
-        //if value is lru run lru policy
+        }       
+        //if value is lru run lru policy        //this section runs once memory space runs out
         else if(value.equals("lru"))
         {
             lru(id);
