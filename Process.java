@@ -1,4 +1,4 @@
-//* File:                       Main.java
+//* File:                       Process.java
 // * Course:                    COMP2240
 //  * Assignment:               Assignment3
 //   * Name:                    Juyong Kim  
