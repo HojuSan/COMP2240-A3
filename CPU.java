@@ -243,7 +243,6 @@ public class CPU
     public String printLRU()  
     {
         Collections.sort(finished);
-
         String token1="LRU - Fixed:\nPID  Turnaround Time  # Faults  Fault Times\n";
         for(int i = 0; i < processCount;i++)
         {
@@ -254,6 +253,7 @@ public class CPU
     //prints values from clock policy
     public String printClock()  
     {
+        Collections.sort(finished);
         String token1="Clock - Fixed:\nPID  Turnaround Time  # Faults  Fault Times\n";
         for(int i = 0; i < processCount;i++)
         {

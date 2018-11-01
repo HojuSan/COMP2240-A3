@@ -4,7 +4,7 @@
 //   * Name:                    Juyong Kim  
 //    * Student Number:         c3244203
 //     * Purpose:               Main file
-//      * 
+//      * Note:                 Presumes all file name put in exists, or it will index out of bounds
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,88 +18,35 @@ import java.util.LinkedList;
 
 public class Assign3
 {
-/*
-
-
-
-once fault, go immediately to next process that needs to work
-
-
-*/
-
     public static void main(String[] args) throws IOException
     {
-        //args is all string
-//        int frames = Integer.parseInt(args[0]);
-        //errors with time slice
-//        int timeQuantum = Integer.parseInt(args[1]);
-
-        //skip first 2 values
-//        for(int i =2; i<args.length;i++)
-//        {
-//            String token1 = args[i];
-//            Process process1 = new Process(token1,frames/args.length-2);
-//            readFile(token1,process1);
-//        }
-
-        
         //variables
-        //these values hardcoded for testing purposes
-        int pCount=4;
-        int timeQuantum = 3;
-        int frames = 30;
-
-        //files
-        String f1 = "Process1.txt";
-        String f2 = "Process2.txt";
-        String f3 = "Process3.txt";
-        String f4 = "Process4.txt";
-
-        //data from the file
-        Process process1 = new Process(f1,frames/pCount);
-        Process process2 = new Process(f2,frames/pCount);
-        Process process3 = new Process(f3,frames/pCount);
-        Process process4 = new Process(f4,frames/pCount);
-
-//        Process process4 = new Process(f1,frames/pCount);
-//        Process process5 = new Process(f2,frames/pCount);
-//        Process process6 = new Process(f3,frames/pCount);
-
-        //load data from files into processes
-        readFile(f1,process1);
-        readFile(f2,process2);
-        readFile(f3,process3);
-        readFile(f4,process4);
-
-//        readFile(f1,process4);
-//        readFile(f2,process5);
-//        readFile(f3,process6);
-
-        //adds the process into the memory allocation
-        //its just clean
-        System.out.println("\n");
-
-        //put this further up once i figure dis shiet out
+        //args is all string
+        int frames = Integer.parseInt(args[0]);
+        int timeQuantum = Integer.parseInt(args[1]);
+        int pCount = args.length-2;
+        int perFrames = frames/pCount;
         CPU cpu1 = new CPU(timeQuantum, frames,"lru");
-//        CPU cpu2 = new CPU(timeQuantum, frames,"clock");
-
-        cpu1.addProcess(process1);
-        cpu1.addProcess(process2);
-        cpu1.addProcess(process3);
-        cpu1.addProcess(process4);
-
-//        cpu2.addProcess(process4);
-//        cpu2.addProcess(process5);
-//        cpu2.addProcess(process6);
-//        cpu2.addProcess(process4);
+        CPU cpu2 = new CPU(timeQuantum, frames,"clock");
+        
+        //skip first 2 values
+        //and input values into the CPU
+        for(int i =2; i<args.length;i++)
+        {
+            String token1 = args[i];
+            Process process1 = new Process(token1,frames/args.length-2);
+            Process process2 = new Process(token1,frames/args.length-2);
+            readFile(token1,process1);
+            readFile(token1,process2);
+            cpu1.addProcess(process1);
+            cpu2.addProcess(process2);
+        }
 
         //testing sections
         cpu1.events();
+        cpu2.events();
         System.out.println(cpu1.printLRU());
-//        cpu2.events();
-//        System.out.println(cpu2.printClock());
-//        System.out.println(cpu1.printLRU());
-//        System.out.println(cpu2.printClock());
+        System.out.println(cpu2.printClock());
 
     }//end of main
 
