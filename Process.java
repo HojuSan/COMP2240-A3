@@ -3,8 +3,8 @@
 //  * Assignment:               Assignment3
 //   * Name:                    Juyong Kim  
 //    * Student Number:         c3244203
-//     * Purpose:               Primary file and then blah blah more explanation of shiet
-//      * 
+//     * Purpose:               Process file utilizes memory allocation for pages
+//      *                       and also stores multiple pages, with code to manipulate as needed
 import java.util.List;
 import java.util.LinkedList;
 import java.util.ArrayList;
@@ -93,7 +93,7 @@ public class Process implements Comparable<Process>
         return ma;
     }
     @Override
-    public int compareTo(Process process)
+    public int compareTo(Process process)               //comparator of processes, compares id's
     {
         return id.compareTo(process.getProcessId());
     }

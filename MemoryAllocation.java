@@ -3,15 +3,19 @@
 //  * Assignment:               Assignment3
 //   * Name:                    Juyong Kim  
 //    * Student Number:         c3244203
-//     * Purpose:               Primary file and then blah blah more explanation of shiet
-//      * 
+//     * Purpose:               Has a list of memory frames, that contains information
+//      *                       used to allocated memory. Has functions to manipulate them
+//libraries
 import java.util.List;
 import java.util.LinkedList;
+
 public class MemoryAllocation
 {
+    //variables
     private LinkedList<MemoryFrame> exists;
     private int frames;
     private int pointer;
+
     // constructor
     public MemoryAllocation(int frames) 
     {
@@ -20,31 +24,8 @@ public class MemoryAllocation
         exists = new LinkedList<MemoryFrame>();
     }
 
-    public int getFrames()
-    {
-        return frames;
-    }
-    public void addMa(String id, String policy) //adds to memory Allocation
-    {
-        String value = policy;
-
-        //if less than or equal to allocated frame amount, just add to memory
-        if(exists.size()<=frames)
-        {
-            exists.add(new MemoryFrame(id));
-        }
-        //if value is lru run lru policy
-        else if(value.equals("lru"))
-        {
-            lru(id);
-        }
-        //if value is clock run clock policy
-        else if(value.equals("clock"))
-        {
-            clock(id);
-        }
-    }
-    public boolean check(String id,String policy)
+    //functions
+    public boolean check(String id,String policy)               //checks if id is in memory allocation
     {
         //if empty then nothing is in memory
         if(exists.size()==0)
@@ -91,8 +72,7 @@ public class MemoryAllocation
 
 
     }
-    //makes the pointer point to the next value
-    public void pointerNext()
+    public void pointerNext()                   //makes the pointer point to the next value
     {
         //up pointer location
         if(pointer<exists.size()-1)
@@ -104,16 +84,14 @@ public class MemoryAllocation
             pointer=0;
         }
     }
-    //uses least recently used policy
-    public void lru(String id)
+    public void lru(String id)                  //uses least recently used policy
     {
         //remove the least used
         exists.remove(exists.get(0));      
         //add the new page id
         exists.add(new MemoryFrame(id));
     }
-    //uses clock policy
-    public void clock(String id)
+    public void clock(String id)                //uses clock policy
     {
         //while pointer location is true
         while(exists.get(pointer).getStar()==true)
@@ -124,6 +102,34 @@ public class MemoryAllocation
         exists.remove(pointer);
         exists.add(pointer, new MemoryFrame(id));
         pointerNext();
+    }
+
+    //setters
+    public void addMa(String id, String policy) //adds to memory Allocation
+    {
+        String value = policy;
+
+        //if less than or equal to allocated frame amount, just add to memory
+        if(exists.size()<=frames)
+        {
+            exists.add(new MemoryFrame(id));
+        }
+        //if value is lru run lru policy
+        else if(value.equals("lru"))
+        {
+            lru(id);
+        }
+        //if value is clock run clock policy
+        else if(value.equals("clock"))
+        {
+            clock(id);
+        }
+    }
+    
+    //getters  
+    public int getFrames()
+    {
+        return frames;
     }
 
 }//end of class

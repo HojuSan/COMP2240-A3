@@ -3,8 +3,8 @@
 //  * Assignment:               Assignment3
 //   * Name:                    Juyong Kim  
 //    * Student Number:         c3244203
-//     * Purpose:               Primary file and then blah blah more explanation of shiet
-//      * 
+//     * Purpose:               Location where the processing of pages, and allocation
+//      *                       of memory, page faulting. Place where the primary action occurs
 //Libraries
 import java.util.Comparator;
 import java.util.Collections;
@@ -15,8 +15,8 @@ import java.util.*;
 
 public class CPU 
 {
-    //List for ready, running and finished queues
-    private List<Process> ready,running,finished,blocked,faulted,organiseBlocked;
+    //variables
+    private List<Process> ready,running,finished,blocked,faulted,organiseBlocked;   //used for process/page manipulation
     private int processCount;
     private final int memPro = 6;
     private int timeQuantum;
@@ -39,8 +39,6 @@ public class CPU
         this.frames = frames;
         processCount = 0;
         time = 0;
-        //delete after testing
-        dummy = 0;
         this.policy = policy;
     }
 
@@ -49,6 +47,7 @@ public class CPU
     {
 
 //        System.out.println("frames is "+ ready.get(0).getMa().getFrames());
+
         //organise queue before beginning
         Collections.sort(ready);
 
@@ -240,24 +239,7 @@ public class CPU
         ready.add(process);
         processCount++;
     }
-    public String print()   //testing purposes, prints all the values in all the processes
-    {
-        String token1="";
-
-        for(int i = 0; i < ready.size();i++)
-        {
-            token1 += "This is " + ready.get(i).getProcessId()+"\n";
-
-            //size of pages in a process
-            for(int j = 0; j < ready.get(i).getPages().size(); j++)
-            {
-                token1 += ready.get(i).getPages().get(j).getPageId() +"\n";
-            }
-        }
-        return token1;
-    }
-    //reults section
-    //TODO returns values
+    //prints values from LRU policy
     public String printLRU()  
     {
         Collections.sort(finished);
@@ -269,6 +251,7 @@ public class CPU
         }
         return token1;
     }
+    //prints values from clock policy
     public String printClock()  
     {
         String token1="Clock - Fixed:\nPID  Turnaround Time  # Faults  Fault Times\n";
@@ -279,11 +262,9 @@ public class CPU
         return token1;
     }
 
-    //setters
     //getters
     public int getTime()
     {
         return time;
-    }
-    
+    } 
 }//end of class
