@@ -5,7 +5,7 @@
 //    * Student Number:         c3244203
 //     * Purpose:               Main file
 //      * Note:                 Presumes all file name put in exists, or it will index out of bounds
-//       *                       Also please don't mark me down for my secret function, didn't have time to finish it, please let me keep at least one good thing in my life
+//       *                       Also please don't mark me down for my secret function, didn't have time to finish it, please let me keep for the memories
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
